@@ -22,7 +22,7 @@ module.exports = app => {
 
     app.post('/api/notes', (req,res) => {
         const { title, text } = req.body;
-        const newNote = { title, text, id: Math.floor((Math.random().toFixed(4))*100)};
+        const newNote = { title, text, id: Math.random().toFixed(4)};
         dbData.push(newNote);
         updateDb(dbData);    
        // console.log(newNote);
@@ -30,20 +30,24 @@ module.exports = app => {
         
     });
 
-    // app.delete('/api/notes/:id', (req,res) => {
+     app.delete('/api/notes/:id', (req,res) => {
 
-    //     //console.log( 'xx' + req.params.id);
-    //     //res.json(req.body.id);
-    //     // Create a new array and filter it so that note.id !== deletedId. DeletedId is the captured Id from req.params.id
-    //     let tempArr = dbData.filter(note => {
-    //         console.log(note.id);
-    //          return note.id !== req.params.id
-        
-    //     });
+        // console.log( 'xx' + req.params.id);
+        // res.json(req.body.id);
+        const deleteId = req.params.id;
+        //  Create a new array and filter it so that note.id !== deletedId. DeletedId is the captured Id from req.params.id
+         const tempArr = dbData.filter(note => {
+             return note.id !== deleteId
+         });
+            //  console.log(`My deleted id is ${deleteId} and my note id is ${note.id}`)
+            // note.id !== deleteId;
+        updateDb(tempArr);
+       // location.reload(true);
 
-    //     console.log(tempArr);
+        // console.log(tempArr);
+        res.json(true);
         
-    // });
+     });
 
 
 
